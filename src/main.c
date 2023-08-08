@@ -62,9 +62,6 @@ void process_input() {
 
 void update() {
 
-  while (!SDL_TICKS_PASSED(SDL_GetTicks(), last_frame_time + FRAME_TARGET_TIME))
-    ;
-
   // Get a delta time factor converted to seconds to be used to update my object
   float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
 
