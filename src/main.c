@@ -3,11 +3,13 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_timer.h>
 #include <stdio.h>
 
 int game_is_running = FALSE;
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
+int last_frame_time = 0;
 
 struct ball {
   float x;
@@ -59,8 +61,17 @@ void process_input() {
 }
 
 void update() {
-  ball.x += 1;
-  ball.y += 1;
+
+  while (!SDL_TICKS_PASSED(SDL_GetTicks(), last_frame_time + FRAME_TARGET_TIME))
+    ;
+
+  // Get a delta time factor converted to seconds to be used to update my object
+  float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
+
+  last_frame_time = SDL_GetTicks();
+
+  ball.x += 20 * delta_time;
+  ball.y += 20 * delta_time;
 }
 
 void render() {
